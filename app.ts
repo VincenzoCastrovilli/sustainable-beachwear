@@ -74,6 +74,39 @@ class ProcessoProduzione implements IProcessoProduzione {
 
   aggiungiProdotto(prodotto: IProdotto): void {
     this.prodottiInProduzione.push(prodotto);
-    console.log(`Prodotto: ${prodotto.tipo} aggiunto a ${this.nomeProcesso}`);
+    console.log(
+      `Prodotto: ${prodotto.tipo}-${prodotto.taglia}-${prodotto.colore} aggiunto a ${this.nomeProcesso}`
+    );
   }
 }
+
+//Instance and testing
+
+const costumeBlu = new Prodotto("Costume", 1, "M", "Blu", true);
+const costumeVerde = new Prodotto("Costume", 2, "L", "Verde", true);
+const pareo = new Prodotto("Pareo", 3, "Unica", "Rosa", true);
+const occhiali = new Prodotto("Occhiali da sole", 4, "Unica", "Nero", true);
+
+const cliente1 = new Cliente(
+  "Mario",
+  "Rossi",
+  "mario.rossi@email.com",
+  "Carta di credito"
+);
+const cliente2 = new Cliente(
+  "Anna",
+  "Verdi",
+  "anna.verdi@email.com",
+  "Satispay"
+);
+
+const processoCostumi = new ProcessoProduzione(
+  "Produzione Costumi",
+  "Processo di produzione di costumi beachwear con plastica riciclata",
+  []
+);
+
+cliente2.ordinaProdotto(costumeBlu);
+costumeVerde.assegnaCliente(cliente1);
+
+processoCostumi.aggiungiProdotto(costumeVerde);
