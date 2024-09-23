@@ -38,7 +38,12 @@ class Prodotto implements IProdotto {
     public isDisponibile: boolean
   ) {}
 
-  assegnaCliente(cliente: ICliente): void {}
+  assegnaCliente(cliente: ICliente): void {
+    console.log(
+      `Il prodotto ${this.tipo}-${this.taglia}-${this.colore} è stato acquistato da ${cliente.nome} ${cliente.cognome}`
+    );
+    this.isDisponibile = false;
+  }
 }
 
 class Cliente implements ICliente {
@@ -49,15 +54,26 @@ class Cliente implements ICliente {
     public metodoPagamento: string
   ) {}
 
-  ordinaProdotto(prodotto: IProdotto): void {}
+  ordinaProdotto(prodotto: IProdotto): void {
+    if (prodotto.isDisponibile) {
+      console.log(
+        `Il cliente ${this.nome} ${this.cognome} ha ordinato ${prodotto.tipo}-${prodotto.colore}-${prodotto.taglia}`
+      );
+    } else {
+      console.log(`Il prodotto non è disponibile`);
+    }
+  }
 }
 
 class ProcessoProduzione implements IProcessoProduzione {
   constructor(
     public nomeProcesso: string,
     public descrizione: string,
-    public prodottiInProduzione: IProdotto[]
+    public prodottiInProduzione: Prodotto[]
   ) {}
 
-  aggiungiProdotto(prodotto: IProdotto): void {}
+  aggiungiProdotto(prodotto: IProdotto): void {
+    this.prodottiInProduzione.push(prodotto);
+    console.log(`Prodotto: ${prodotto.tipo} aggiunto a ${this.nomeProcesso}`);
+  }
 }
