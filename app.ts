@@ -1,112 +1,112 @@
 //Interfaces
 
-interface IProdotto {
-  tipo: string;
+interface IProduct {
+  type: string;
   id: number;
-  taglia: string;
-  colore: string;
-  isDisponibile: boolean;
+  size: string;
+  color: string;
+  isAvailable: boolean;
 
-  assegnaCliente(cliente: ICliente): void;
+  assignToCustomer(customer: ICustomer): void;
 }
 
-interface ICliente {
-  nome: string;
-  cognome: string;
+interface ICustomer {
+  firstName: string;
+  lastName: string;
   email: string;
-  metodoPagamento: string;
+  paymentMethod: string;
 
-  ordinaProdotto(prodotto: IProdotto): void;
+  orderProduct(product: IProduct): void;
 }
 
-interface IProcessoProduzione {
-  nomeProcesso: string;
-  descrizione: string;
-  prodottiInProduzione: IProdotto[];
+interface IProductionProcess {
+  processName: string;
+  description: string;
+  productsInProduction: IProduct[];
 
-  aggiungiProdotto(prodotto: IProdotto): void;
+  addProduct(product: IProduct): void;
 }
 
 //Classes
 
-class Prodotto implements IProdotto {
+class Product implements IProduct {
   constructor(
-    public tipo: string,
+    public type: string,
     public id: number,
-    public taglia: string,
-    public colore: string,
-    public isDisponibile: boolean
+    public size: string,
+    public color: string,
+    public isAvailable: boolean
   ) {}
 
-  assegnaCliente(cliente: ICliente): void {
+  assignToCustomer(customer: ICustomer): void {
     console.log(
-      `Il prodotto ${this.tipo}-${this.taglia}-${this.colore} è stato acquistato da ${cliente.nome} ${cliente.cognome}`
+      `Product ${this.type}-${this.size}-${this.color} bought by ${customer.firstName} ${customer.lastName}`
     );
-    this.isDisponibile = false;
+    this.isAvailable = false;
   }
 }
 
-class Cliente implements ICliente {
+class Customer implements ICustomer {
   constructor(
-    public nome: string,
-    public cognome: string,
+    public firstName: string,
+    public lastName: string,
     public email: string,
-    public metodoPagamento: string
+    public paymentMethod: string
   ) {}
 
-  ordinaProdotto(prodotto: IProdotto): void {
-    if (prodotto.isDisponibile) {
+  orderProduct(product: IProduct): void {
+    if (product.isAvailable) {
       console.log(
-        `Il cliente ${this.nome} ${this.cognome} ha ordinato ${prodotto.tipo}-${prodotto.colore}-${prodotto.taglia}`
+        `The customer ${this.firstName} ${this.lastName} ordered ${product.type}-${product.color}-${product.size}`
       );
     } else {
-      console.log(`Il prodotto non è disponibile`);
+      console.log(`Product not available`);
     }
   }
 }
 
-class ProcessoProduzione implements IProcessoProduzione {
+class ProductionProcess implements IProductionProcess {
   constructor(
-    public nomeProcesso: string,
-    public descrizione: string,
-    public prodottiInProduzione: Prodotto[]
+    public processName: string,
+    public description: string,
+    public productsInProduction: Product[]
   ) {}
 
-  aggiungiProdotto(prodotto: IProdotto): void {
-    this.prodottiInProduzione.push(prodotto);
+  addProduct(product: IProduct): void {
+    this.productsInProduction.push(product);
     console.log(
-      `Prodotto: ${prodotto.tipo}-${prodotto.taglia}-${prodotto.colore} aggiunto a ${this.nomeProcesso}`
+      `Product: ${product.type}-${product.size}-${product.color} added to ${this.processName}`
     );
   }
 }
 
 //Instance and testing
 
-const costumeBlu = new Prodotto("Costume", 1, "M", "Blu", true);
-const costumeVerde = new Prodotto("Costume", 2, "L", "Verde", true);
-const pareo = new Prodotto("Pareo", 3, "Unica", "Rosa", true);
-const occhiali = new Prodotto("Occhiali da sole", 4, "Unica", "Nero", true);
+const blueSwimsuit = new Product("Swimsuit", 1, "M", "Blue", true);
+const greenSwimsuit = new Product("Swimsuit", 2, "L", "Green", true);
+const flipflop = new Product("Flip-Flop", 3, "43", "Pink", true);
+const sunglasses = new Product("Sunglasses", 4, "Unique", "Black", true);
 
-const cliente1 = new Cliente(
+const customer1 = new Customer(
   "Mario",
   "Rossi",
   "mario.rossi@email.com",
-  "Carta di credito"
+  "Credit Card"
 );
-const cliente2 = new Cliente(
+const customer2 = new Customer(
   "Anna",
   "Verdi",
   "anna.verdi@email.com",
-  "Satispay"
+  "Paypal"
 );
 
-const processoCostumi = new ProcessoProduzione(
-  "Produzione Costumi",
-  "Processo di produzione di costumi beachwear con plastica riciclata",
+const swimsuitProcess = new ProductionProcess(
+  "Swimsuit production",
+  "Production process of beachwear swimsuits with recycled plastic",
   []
 );
 
-cliente2.ordinaProdotto(costumeBlu);
-costumeVerde.assegnaCliente(cliente1);
+customer2.orderProduct(blueSwimsuit);
+greenSwimsuit.assignToCustomer(customer1);
 
-processoCostumi.aggiungiProdotto(costumeVerde);
+swimsuitProcess.addProduct(greenSwimsuit);
